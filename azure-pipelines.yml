@@ -17,7 +17,7 @@ jobs:
   steps:
   - task: Maven@3
     inputs:
-      mavenPomFile: $(api_name)/'pom.xml'
+      mavenPomFile: $(api_name)/pom.xml
       goals: 'dependency:resolve'
   - script: |
       echo "Maven"
