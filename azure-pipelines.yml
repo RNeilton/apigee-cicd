@@ -18,7 +18,7 @@ jobs:
   - task: Maven@3
     inputs:
       mavenPomFile: $(api_name)/'pom.xml'
-      goals: 'clean install'
+      goals: 'dependency:resolve'
   - script: |
       echo "Maven"
     displayName: Running Unit Tests
