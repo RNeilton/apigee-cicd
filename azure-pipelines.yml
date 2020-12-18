@@ -14,7 +14,7 @@ variables:
   refresh_token: ''
   access_token: '' 
   api_name: 'hr-api'
-  proxy_name:'apiproxy'
+  proxy_name: 'apiproxy'
 
 stages:
 - stage: Build
