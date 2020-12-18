@@ -60,5 +60,13 @@ stages:
           echo $access_token
       displayName: Credentials
 
-
-
+- stage: Code Analysis
+  jobs:
+  - job: RestoreNode
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        apigeelint -s HR-API/apiproxy/ -f table.js
+      displayName: Code Analysis
