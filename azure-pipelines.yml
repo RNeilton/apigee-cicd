@@ -115,3 +115,14 @@ stages:
         echo "Maven"
         
       displayName: Test
+- stage: Undeploy
+  jobs:
+  - job: Deploy
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        echo "Maven"
+        
+      displayName: Test
