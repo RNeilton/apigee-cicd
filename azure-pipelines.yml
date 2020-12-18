@@ -3,48 +3,50 @@ variables:
   refresh_token: ''
   access_token: '' 
   api_name: 'hr-api'
-jobs:
-- job: RestoreNode
-  steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: '10.x'
-  - script: |
-      npm install
-    displayName: npm install
-- job: RestoreMaven
-  dependsOn: RestoreNode
-  steps:
-  - task: Maven@3
-    inputs:
-      mavenPomFile: $(api_name)/pom.xml
-      goals: 'dependency:resolve'
-  - script: |
-      echo "Maven"
-    displayName: Running Unit Tests
-- job: Authentication
-  dependsOn: RestoreMaven
-  steps:
-  - task: Shellpp@0
-    inputs:
-      type: 'InlineScript'
-      script: |
-        echo "start of the authentication process"
-        if [ -z "$refresh_token"]
-        then
-        echo "Using username and password"
-        token_data=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=password&username=$(DEV_MACHINE_USER)&password=$(DEV_MACHINE_USER_PASSWORD)")
-        access_token=$(jq -r '.access_token' <<< "${token_data}" ) 
-        refresh_token=$(jq -r '.refresh_token' <<< "${token_data}" )
-        else
-        echo "using refresh_token"
-        echo $refresh_token
-        token_data_refresh=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "Accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=refresh_token&refresh_token=$refresh_token ")
-        access_token=$(jq -r '.access_token' <<< "${token_data_refresh}" ) 
-        echo $token_data_refresh
-        fi
-        echo $access_token
-    displayName: Credentials
+stages:
+- stage:build
+  jobs:
+  - job: RestoreNode
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        npm install
+      displayName: npm install
+  - job: RestoreMaven
+    dependsOn: RestoreNode
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: $(api_name)/pom.xml
+        goals: 'dependency:resolve'
+    - script: |
+        echo "Maven"
+      displayName: Running Unit Tests
+  - job: Authentication
+    dependsOn: RestoreMaven
+    steps:
+    - task: Shellpp@0
+      inputs:
+        type: 'InlineScript'
+        script: |
+          echo "start of the authentication process"
+          if [ -z "$refresh_token"]
+          then
+          echo "Using username and password"
+          token_data=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=password&username=$(DEV_MACHINE_USER)&password=$(DEV_MACHINE_USER_PASSWORD)")
+          access_token=$(jq -r '.access_token' <<< "${token_data}" ) 
+          refresh_token=$(jq -r '.refresh_token' <<< "${token_data}" )
+          else
+          echo "using refresh_token"
+          echo $refresh_token
+          token_data_refresh=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "Accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=refresh_token&refresh_token=$refresh_token ")
+          access_token=$(jq -r '.access_token' <<< "${token_data_refresh}" ) 
+          echo $token_data_refresh
+          fi
+          echo $access_token
+      displayName: Credentials
 
 
 
