@@ -2,17 +2,35 @@
 variables:
   refresh_token: ''
   access_token: '' 
+stages:
+- stage: Restore
+  displayName: 'Restore npm and maven'
+  jobs:
+
+   - job: Restore_Npm
+    displayName: 'Restore npm'
 steps:
 - task: NodeTool@0
-  inputs:
-    versionSpec: '6.x'
-    checkLatest: true
-  script: npm install --only=dev
-  displayName: npm install
+      inputs:
+        versionSpec: '10.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        npm install
+        npm run build
+      displayName: 'npm install, build'
+
+- job: Restore_Maven 
+  dependsOn: Restore_Npm
+    steps:  
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
     goals: 'clean install'
+
+- job: Authentication 
+  dependsOn: Restore_Maven
+    steps:  
 - task: Shellpp@0
   inputs:
     type: 'InlineScript'
