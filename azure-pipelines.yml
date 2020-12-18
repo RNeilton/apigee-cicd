@@ -16,7 +16,19 @@ variables:
   api_name: 'hr-api'
   proxy_name: 'apiproxy'
 
+
 stages:
+- stage: Push_GIT
+  jobs:
+  - job: GIT
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        echo "Maven"
+        
+      displayName: Test
 - stage: Build
   jobs:
   - job: RestoreNode
