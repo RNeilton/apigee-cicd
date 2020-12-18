@@ -3,7 +3,18 @@ variables:
   refresh_token: ''
   access_token: '' 
 jobs:
+- job: RestoreNode
+  dependsOn: Build
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '10.x'
+  - script: |
+      npm install
+      npm run build
+    displayName: npm install, build
 - job: Authentication
+  dependsOn: RestoreNode
   steps:
   - task: Shellpp@0
     inputs:
