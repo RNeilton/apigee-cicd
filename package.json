@@ -10,28 +10,29 @@
   "license": "ISC",
   "dependencies": {
     "JSONPath": "^0",
+    "apickli": "latest",
+    "apigeelint": "^2.3.0",
     "is-my-json-valid": "^2",
     "path": "^0",
     "prettyjson": "^1",
     "request": "^2",
     "swagger-tools": "^0",
     "xmldom": "^0",
-    "xpath.js": "^1",
-    "apickli": "latest"
+    "xpath.js": "^1"
   },
   "devDependencies": {
+    "argv": "^0",
     "chai": "^4.1.2",
+    "cucumber": "^5",
+    "cucumber-html-reporter": "^4.0.5",
+    "eslint": "^5",
+    "eslint-config-google": "^0",
     "expect.js": "*",
+    "fs-extra": "^7",
     "mocha": "^4.0.1",
     "mocha-xunit-reporter": "^1.1.0",
     "nyc": "^14.1.1",
     "rewire": "*",
-    "sinon": "*",
-    "cucumber": "^5",
-    "eslint": "^5",
-    "eslint-config-google": "^0",
-    "cucumber-html-reporter": "^4",
-    "fs-extra": "^7",
-    "argv": "^0"
+    "sinon": "*"
   }
 }
