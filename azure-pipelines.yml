@@ -1,10 +1,21 @@
 # Starter pipeline
+trigger:
+  branches:
+    include:
+      - main
+
+paths:
+  exclude:
+    - README.md
+    - azure-pipelines.yml
+pool:
+  vmImage: 'ubuntu-latest'
+
 variables:
   refresh_token: ''
   access_token: '' 
   api_name: 'hr-api'
-stages:
-- stage:build
+
   jobs:
   - job: RestoreNode
     steps:
