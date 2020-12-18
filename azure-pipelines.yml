@@ -4,7 +4,6 @@ variables:
   access_token: '' 
 jobs:
 - job: RestoreNode
-  dependsOn: Build
   steps:
   - task: NodeTool@0
     inputs:
