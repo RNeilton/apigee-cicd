@@ -22,7 +22,7 @@ jobs:
       echo "Maven"
     displayName: Running Unit Tests
 - job: Authentication
-  dependsOn: RestoreNode
+  dependsOn: RestoreMaven
   steps:
   - task: Shellpp@0
     inputs:
