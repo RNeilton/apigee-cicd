@@ -34,8 +34,6 @@ stages:
       inputs:
         mavenPomFile: $(api_name)/pom.xml
         goals: 'dependency:resolve'
-    - script: |
-        echo "Maven"
       displayName: Running Unit Tests
   - job: Authentication
     dependsOn: RestoreMaven
@@ -63,11 +61,33 @@ stages:
 
 - stage: CodeAnalysis
   jobs:
-  - job: RestoreNode
+  - job: CodeAnalysis
     steps:
     - task: NodeTool@0
       inputs:
         versionSpec: '10.x'
     - script: |
-        apigeelint -s $(api_name)/${proxy_name}/ -f table.js
+        apigeelint -s $(api_name)/$(proxy_name)/ -f table.js
       displayName: CodeAnalysis
+- stage: Test
+  jobs:
+  - job: Test
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        npm test test/unit/*.js
+        npm run coverage test/unit/*.js
+      displayName: Test
+- stage: DeployDEV
+  jobs:
+  - job: Deploy
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        echo "Maven"
+        
+      displayName: Test
