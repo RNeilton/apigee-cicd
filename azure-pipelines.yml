@@ -11,6 +11,16 @@ jobs:
   - script: |
       npm install
     displayName: npm install
+- job: RestoreMaven
+  dependsOn: RestoreNode
+  steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      goals: 'clean install'
+  - script: |
+      echo "Maven"
+    displayName: Running Unit Tests
 - job: Authentication
   dependsOn: RestoreNode
   steps:
