@@ -60,6 +60,7 @@ stages:
       displayName: Credentials
 
 - stage: CodeAnalysis
+  dependsOn: Build
   jobs:
   - job: CodeAnalysis
     steps:
