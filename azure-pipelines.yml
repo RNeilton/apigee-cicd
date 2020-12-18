@@ -14,6 +14,7 @@ variables:
   refresh_token: ''
   access_token: '' 
   api_name: 'hr-api'
+  proxy_name:'apiproxy'
 
 stages:
 - stage: Build
@@ -60,7 +61,7 @@ stages:
           echo $access_token
       displayName: Credentials
 
-- stage: Code Analysis
+- stage: CodeAnalysis
   jobs:
   - job: RestoreNode
     steps:
@@ -68,5 +69,5 @@ stages:
       inputs:
         versionSpec: '10.x'
     - script: |
-        apigeelint -s HR-API/apiproxy/ -f table.js
-      displayName: Code Analysis
+        apigeelint -s $(api_name)/${proxy_name}/ -f table.js
+      displayName: CodeAnalysis
