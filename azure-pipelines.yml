@@ -81,7 +81,7 @@ stages:
         npm test test/unit/*.js
         npm run coverage test/unit/*.js
       displayName: Test
-- stage: CD-DEV
+- stage: CD_DEV
   jobs:
   - job: Deploy
     steps:
@@ -92,7 +92,7 @@ stages:
         echo "Maven"
         
       displayName: Test
-- stage: CD-UAT
+- stage: CD_UAT
   jobs:
   - job: Deploy
     steps:
@@ -103,7 +103,7 @@ stages:
         echo "Maven"
         
       displayName: Test
-- stage: CD-PRD
+- stage: CD_PRD
   jobs:
   - job: Deploy
     steps:
