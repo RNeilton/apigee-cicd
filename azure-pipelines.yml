@@ -3,6 +3,19 @@ variables:
   refresh_token: ''
   access_token: '' 
 steps:
+- task: Npm@1
+    inputs:
+      command: 'install'
+- task: Maven@3
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean install'
+    publishJUnitResults: false
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    mavenAuthenticateFeed: false
+    effectivePomSkip: false
+    sonarQubeRunAnalysis: false     
 - task: Shellpp@0
   inputs:
     type: 'InlineScript'
@@ -22,4 +35,9 @@ steps:
       echo $token_data_refresh
       fi
       echo $access_token
+  displayName: Credentials
+  - task: Npm@1
+    inputs:
+      command: 'install'
+
 
