@@ -2,6 +2,7 @@
 variables:
   refresh_token: ''
   access_token: '' 
+  api_name: 'hr-api'
 jobs:
 - job: RestoreNode
   steps:
@@ -16,7 +17,7 @@ jobs:
   steps:
   - task: Maven@3
     inputs:
-      mavenPomFile: 'pom.xml'
+      mavenPomFile: $(api_name)/'pom.xml'
       goals: 'clean install'
   - script: |
       echo "Maven"
