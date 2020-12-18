@@ -3,9 +3,12 @@ variables:
   refresh_token: ''
   access_token: '' 
 steps:
-- task: Npm@1
-    inputs:
-      command: 'install'
+- task: NodeTool@0
+  inputs:
+    versionSpec: '6.x'
+    checkLatest: true
+  script: npm install --only=dev
+  displayName: npm install
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -30,8 +33,6 @@ steps:
       fi
       echo $access_token
   displayName: Credentials
-  - task: Npm@1
-    inputs:
-      command: 'install'
+  
 
 
