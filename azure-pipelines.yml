@@ -108,6 +108,12 @@ stages:
         publishJUnitResults: false
         goals: 'package'
       displayName: Package Proxy
+    - task: Shellpp@0
+      inputs:
+        type: 'InlineScript'
+        script: |
+          ls -l
+      displayName: diretorio
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
