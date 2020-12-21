@@ -11,8 +11,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  refresh_token: ''
-  access_token: '' 
   api_name: 'hr-api'
   proxy_name: 'apiproxy'
   enable_test: 'false'
