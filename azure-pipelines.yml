@@ -86,6 +86,7 @@ stages:
         testResultsFiles: '**/test-*.xml'
         testRunTitle: 'Apigee CodeAnalysis'
   - job: Test
+    dependsOn: RestoreNode
     steps:
     - task: NodeTool@0
       inputs:
