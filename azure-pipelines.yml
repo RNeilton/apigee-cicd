@@ -112,8 +112,8 @@ stages:
       displayName: Directory
     - task: PublishBuildArtifacts@1
       inputs:
-        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
         ArtifactName: 'drop'
+        targetPath: '$(Build.ArtifactStagingDirectory)'
         publishLocation: 'Container'
 
 - stage: CD_DEV
