@@ -14,7 +14,7 @@ variables:
   api_name: 'hr-api'
   proxy_name: 'apiproxy'
   enable_test: 'false'
-  enable_dev_deploy: 'false'
+  enable_dev_deploy: 'false' 
 
 stages:
 #- stage: Push_GIT
