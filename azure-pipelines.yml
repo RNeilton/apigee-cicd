@@ -169,7 +169,7 @@ stages:
       inputs:
         mavenPomFile: $(api_name)/pom.xml
         goals: 'install'
-        options: '-P test -Dhosturl=$(hosturl) -Dorg=$(org_name) -Dusername=$(dev_machine_user) -Dpassword=$(dev_machine_user_password) -Dapigee.config.options=none -Dapigee.config.dir=$(Pipeline.Workspace)/drop/hr-api/target/HR-API-1.0.zip -X' 
+        options: '-P test -Dapigee.hosturl==$(hosturl) -Dorg=$(org_name) -Dusername=$(dev_machine_user) -Dpassword=$(dev_machine_user_password) -Dapigee.config.options=none -Dapigee.config.dir=$(Pipeline.Workspace)/drop/hr-api/target/HR-API-1.0.zip -X' 
 #- stage: CD_DEV
 #  jobs:
 #  - deployment: DeployK8S
