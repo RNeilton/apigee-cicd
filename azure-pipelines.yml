@@ -72,7 +72,7 @@ stages:
         testResultsFiles: '**/test-*.xml'
         testRunTitle: 'Apigee CodeAnalysis'
   - job: Test
-    dependsOn: RestoreNode
+    dependsOn: CodeAnalysis
     condition: eq(variables.enable_test, true)
     steps:
     - task: NodeTool@0
@@ -84,7 +84,7 @@ stages:
         npm run coverage test/unit/*.js
       displayName: Test
   - job: RestoreMaven
-    dependsOn: RestoreNode
+    dependsOn: Test
     steps:
     - task: Maven@3
       inputs:
