@@ -112,7 +112,8 @@ stages:
       inputs:
         type: 'InlineScript'
         script: |
-          ls -l
+          pwd
+          ls -lR
       displayName: diretorio
     - task: PublishBuildArtifacts@1
       inputs:
