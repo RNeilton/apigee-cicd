@@ -84,6 +84,7 @@ stages:
       inputs:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-*.xml'
+        testRunTitle: 'Apigee CodeAnalysis'
 
 - stage: CodeAnalysis
   dependsOn: Build
