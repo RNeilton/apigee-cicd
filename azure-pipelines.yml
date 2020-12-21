@@ -100,7 +100,8 @@ stages:
       displayName: Directory
     - task: CopyFiles@2
       inputs:
-        Contents: '$(api_name)/target/$(api_name)*.zip'
+        SourceFolder: $(Build.SoucesDirectory)
+        Contents: '$(api_name)/target/*.zip'
         TargetFolder: $(Build.ArtifactStagingDirectory)
     - task: PublishBuildArtifacts@1
       inputs:
@@ -108,68 +109,3 @@ stages:
         artifactName: MyBuildOutputs
         publishLocation: 'Container'
      
-- stage: CD_DEV
-  jobs:
-  - job: Deploy
-    condition: eq(variables.enable_dev_deploy, true)
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        echo "Maven"
-        
-      displayName: Test
-- stage: CD_UAT
-  jobs:
-  - job: Deploy
-    steps:
-    - task: Shellpp@0
-      inputs:
-        type: 'InlineScript'
-        script: |
-          echo "start of the authentication process"
-          if [ -z "$refresh_token"]
-          then
-          echo "Using username and password"
-          token_data=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=password&username=$(DEV_MACHINE_USER)&password=$(DEV_MACHINE_USER_PASSWORD)")
-          access_token=$(jq -r '.access_token' <<< "${token_data}" ) 
-          refresh_token=$(jq -r '.refresh_token' <<< "${token_data}" )
-          else
-          echo "using refresh_token"
-          echo $refresh_token
-          token_data_refresh=$(curl -H "Content-Type: application/x-www-form-urlencoded;charset=utf-8" -H "Accept: application/json;charset=utf-8" -H "Authorization: Basic $(AUTHORIZATION_TOKEN)" -X POST $(ENDPOINT_OAUTH) -s -d "grant_type=refresh_token&refresh_token=$refresh_token ")
-          access_token=$(jq -r '.access_token' <<< "${token_data_refresh}" ) 
-          echo $token_data_refresh
-          fi
-          echo $access_token
-      displayName: Credentials
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        echo "Maven"
-        
-      displayName: Test
-- stage: CD_PRD
-  jobs:
-  - job: Deploy
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        echo "Maven"
-        
-      displayName: Test
-- stage: Undeploy
-  jobs:
-  - job: Deploy
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        echo "Maven"
-        
-      displayName: Test
