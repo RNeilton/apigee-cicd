@@ -80,6 +80,10 @@ stages:
         test_report=$(apigeelint -s $(api_name)/$(proxy_name)/ -f junit.js)
         echo $test_report > test-report.xml
       displayName: CodeAnalysis
+    - task: PublishTestResults@2
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/test-*.xml'
 
 - stage: CodeAnalysis
   dependsOn: Build
