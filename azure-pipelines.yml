@@ -152,6 +152,16 @@ stages:
         echo "Maven"
         
       displayName: Test
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        targetPath: '$(Pipeline.Workspace)'
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        downloadPath: '$(System.ArtifactsDirectory)'
     - task: Shellpp@0
       inputs:
         type: 'InlineScript'
