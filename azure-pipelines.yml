@@ -99,12 +99,6 @@ stages:
     - task: Maven@3
       inputs:
         mavenPomFile: $(api_name)/pom.xml
-        goals: 'dependency:resolve'
-        publishJUnitResults: false
-      displayName: Restore Maven
-    - task: Maven@3
-      inputs:
-        mavenPomFile: $(api_name)/pom.xml
         publishJUnitResults: false
         goals: 'package'
       displayName: Package Proxy
