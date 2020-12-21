@@ -100,8 +100,7 @@ stages:
       displayName: Directory
     - task: CopyFiles@2
       inputs:
-        SourceFolder: $(Build.SoucesDirectory)
-        Contents: '$(api_name)/target/*.zip'
+        Contents: $(api_name)/target/*.zip
         TargetFolder: $(Build.ArtifactStagingDirectory)
     - task: PublishBuildArtifacts@1
       inputs:
