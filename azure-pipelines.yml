@@ -105,10 +105,11 @@ stages:
     - task: Shellpp@0
       inputs:
         type: 'InlineScript'
+        scriptPath: '$(Build.ArtifactStagingDirectory)'
         script: |
           pwd
           ls -lR
-      displayName: diretorio
+      displayName: Directory
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
