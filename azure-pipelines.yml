@@ -84,7 +84,7 @@ stages:
         npm run coverage test/unit/*.js
       displayName: Test
   - job: RestoreMaven
-    dependsOn: Test
+    dependsOn: CodeAnalysis
     steps:
     - task: Maven@3
       inputs:
