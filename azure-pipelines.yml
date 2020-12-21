@@ -157,11 +157,6 @@ stages:
       inputs:
         buildType: 'current'
         targetPath: '$(Pipeline.Workspace)'
-    - task: DownloadBuildArtifacts@0
-      inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        downloadPath: '$(System.ArtifactsDirectory)'
     - task: Shellpp@0
       inputs:
         type: 'InlineScript'
@@ -172,9 +167,9 @@ stages:
       displayName: Directory
     - task: Maven@3
       inputs:
-        mavenPomFile: 'pom.xml'
+        mavenPomFile: $(api_name)/pom.xml
         goals: 'install'
-        options: '-p' 
+        options: '-P test -Dorg=$(org_name) -Dusername=$(dev_machine_user) -Dpassword=$(dev_machine_user_password) -Dapigee.config.options=none -Dapigee.config.dir=$(Pipeline.Workspace)/drop/hr-api/target/HR-API-1.0.zip -X' 
 #- stage: CD_DEV
 #  jobs:
 #  - deployment: DeployK8S
