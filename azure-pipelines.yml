@@ -90,14 +90,14 @@ stages:
         publishJUnitResults: false
         goals: 'package'
       displayName: Package Proxy
-    - task: Shellpp@0
-      inputs:
-        type: 'InlineScript'
-        scriptPath: '$(Build.ArtifactStagingDirectory)'
-        script: |
-          pwd
-          ls -lR
-      displayName: Directory
+#  - task: Shellpp@0
+#     inputs:
+#       type: 'InlineScript'
+#       scriptPath: '$(Build.ArtifactStagingDirectory)'
+#       script: |
+#         pwd
+#         ls -lR
+#     displayName: Directory
     - task: CopyFiles@2
       inputs:
         Contents: $(api_name)/target/*.zip
@@ -105,6 +105,6 @@ stages:
     - task: PublishBuildArtifacts@1
       inputs:
         pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: MyBuildOutputs
+        artifactName: drop
         publishLocation: 'Container'
      
