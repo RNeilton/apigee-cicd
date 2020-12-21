@@ -16,7 +16,6 @@ variables:
   api_name: 'hr-api'
   proxy_name: 'apiproxy'
 
-
 stages:
 - stage: Push_GIT
   jobs:
@@ -31,24 +30,7 @@ stages:
       displayName: Test
 - stage: Build
   jobs:
-  - job: RestoreNode
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        npm install
-      displayName: npm install
-  - job: RestoreMaven
-    dependsOn: RestoreNode
-    steps:
-    - task: Maven@3
-      inputs:
-        mavenPomFile: $(api_name)/pom.xml
-        goals: 'dependency:resolve'
-      displayName: Running Unit Tests
   - job: Authentication
-    dependsOn: RestoreMaven
     steps:
     - task: Shellpp@0
       inputs:
@@ -70,7 +52,25 @@ stages:
           fi
           echo $access_token
       displayName: Credentials
+  - job: RestoreNode
+    dependsOn: Authentication
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        npm install
+      displayName: npm install
+  - job: RestoreMaven
+    dependsOn: RestoreNode
+    steps:
+    - task: Maven@3
+      inputs:
+        mavenPomFile: $(api_name)/pom.xml
+        goals: 'dependency:resolve'
+      displayName: Running Unit Tests
   - job: CodeAnalysis
+    dependsOn: RestoreNode
     steps:
     - task: NodeTool@0
       inputs:
@@ -85,21 +85,6 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '**/test-*.xml'
         testRunTitle: 'Apigee CodeAnalysis'
-
-- stage: CodeAnalysis
-  dependsOn: Build
-  jobs:
-  - job: CodeAnalysis
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-    - script: |
-        npm install -g apigeelint
-        apigeelint -s $(api_name)/$(proxy_name)/ -f table.js
-      displayName: CodeAnalysis
-- stage: Test
-  jobs:
   - job: Test
     steps:
     - task: NodeTool@0
