@@ -70,6 +70,16 @@ stages:
           fi
           echo $access_token
       displayName: Credentials
+  - job: CodeAnalysis
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.x'
+    - script: |
+        apigeelint -s $(api_name)/$(proxy_name)/ -f table.js
+        test_report=$(apigeelint -s $(api_name)/$(proxy_name)/ -f junit.js)
+        echo $test_report > test-report.xml
+      displayName: CodeAnalysis
 
 - stage: CodeAnalysis
   dependsOn: Build
