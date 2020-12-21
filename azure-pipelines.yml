@@ -15,6 +15,8 @@ variables:
   access_token: '' 
   api_name: 'hr-api'
   proxy_name: 'apiproxy'
+  enable_test: 'false'
+  enable_dev_deploy: 'true'
 
 stages:
 #- stage: Push_GIT
@@ -88,6 +90,7 @@ stages:
         testRunTitle: 'Apigee CodeAnalysis'
   - job: Test
     dependsOn: RestoreNode
+    condition: eq(variables.enable_test, true)
     steps:
     - task: NodeTool@0
       inputs:
@@ -100,6 +103,7 @@ stages:
 - stage: CD_DEV
   jobs:
   - job: Deploy
+    condition: eq(variables.enable_dev_deploy, true)
     steps:
     - task: NodeTool@0
       inputs:
