@@ -76,6 +76,7 @@ stages:
       inputs:
         versionSpec: '10.x'
     - script: |
+        npm install -g apigeelint
         apigeelint -s $(api_name)/$(proxy_name)/ -f table.js
         test_report=$(apigeelint -s $(api_name)/$(proxy_name)/ -f junit.js)
         echo $test_report > test-report.xml
