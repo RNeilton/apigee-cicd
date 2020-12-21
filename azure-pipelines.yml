@@ -93,7 +93,7 @@ stages:
       inputs:
         versionSpec: '10.x'
     - script: |
-        npm install --global mocha
+        npm install 
         npm test test/unit/*.js
         npm run coverage test/unit/*.js
       displayName: Test
