@@ -149,6 +149,6 @@ stages:
               inputs:
                 mavenPomFile: 'pom.xml'
                 goals: 'install'
-                options: '-p'
+                options: '-p' 
 
 
