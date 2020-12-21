@@ -135,5 +135,20 @@ stages:
                   fi
                   echo $access_token
               displayName: Credentials
-          
-  
+        deploy:
+          steps: 
+            - task: Shellpp@0
+              inputs:
+                type: 'InlineScript'
+                scriptPath: '$(Build.ArtifactStagingDirectory)'
+                script: |
+                  pwd
+                  ls -lR
+              displayName: Directory
+            - task: Maven@3
+              inputs:
+                mavenPomFile: 'pom.xml'
+                goals: 'install'
+                options: '-p'
+
+
